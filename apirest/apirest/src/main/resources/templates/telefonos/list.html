@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Telefonos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+    <style>
+        .inactive {
+            opacity: 0.6;
+        }
+
+        tbody tr:hover {
+            background-color: #f0f8ff;
+        }
+
+        th {
+            text-align: center;
+        }
+
+        .action-btn {
+            margin-right: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2 class="mb-4">Lista de Telefonos</h2>
+
+    <div class="mb-3">
+        <a th:href="@{/web/telefonos}" class="btn btn-secondary">Todos</a>
+        <a th:href="@{/web/telefonos/activos}" class="btn btn-success">Activos</a>
+        <a th:href="@{/web/telefonos/inactivos}" class="btn btn-warning">Inactivos</a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered align-middle">
+            <thead class="table-dark">
+            <tr>
+                <th>Id Cliente</th>
+                <th>Telefono</th>
+                <th>Activo</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="telefono : ${telefonos}" th:classappend="${telefono.activo == 0} ? 'inactive'">
+                <td th:text="${telefono.cliente.idCliente}"></td>
+                <td th:text="${telefono.telefono}"></td>
+                <td class="text-center">
+                    <span th:text="${telefono.activo == 1 ? 'Si' : 'No'}"
+                          th:class="${telefono.activo == 0} ? 'text-danger fw-bold' : 'fw-bold'"></span>
+                </td>
+                <td class="text-center">
+                    <a th:href="@{/web/telefonos/{id}(id=${telefono.idTelefono})}" class="btn btn-info btn-sm action-btn">Ver</a>
+                    <a th:href="@{/web/telefonos/edit/{id}(id=${telefono.idTelefono})}" class="btn btn-primary btn-sm action-btn">Editar</a>
+                    <a th:if="${telefono.activo == 1}" th:href="@{/web/telefonos/inactivar/{id}(id=${telefono.idTelefono})}"
+                       class="btn btn-warning btn-sm action-btn">Inactivar</a>
+                    <a th:if="${telefono.activo == 0}" th:href="@{/web/telefonos/activar/{id}(id=${telefono.idTelefono})}"
+                       class="btn btn-success btn-sm action-btn">Activar</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <a th:href="@{/web/clientes}" class="btn btn-secondary">
+            Clientes
+        </a>
+    </div>
+</div>
+
+</body>
+</html>

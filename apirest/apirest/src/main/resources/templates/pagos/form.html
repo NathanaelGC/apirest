@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset=" UTF-8">
+    <title th:text="${action == 'new' ? 'Agregar Pago' : 'Editar Pago'}"></title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0"
+                th:text="${action == 'new' ? 'Agregar Nuevo Pago' : 'Editar Pago'}">
+                Agregar Nuevo Pago
+            </h4>
+        </div>
+
+        <div class="card-body">
+            <div th:if="${error}" class="alert alert-danger shadow-sm" role="alert">
+                <i class="bi bi-exclamation-triangle-fill"></i>
+                <span th:text="${error}"></span>
+            </div>
+
+            <form th:action="@{/web/pagos}" th:object="${pago}" method="post">
+
+                <input type="hidden" th:field="*{idPago}" />
+                <input type="hidden" th:field="*{factura.idFactura}" />
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <label for="monto" class="form-label">Monto</label>
+                        <input type="number" step="0.01" min="0.01" id="monto" th:field="*{monto}"
+                               class="form-control" placeholder="0.01" required>
+                    </div>
+                </div>
+
+                <!-- Botones -->
+                <div class="mt-4 d-flex justify-content-between">
+
+                    <a href="#"
+                       onclick="history.back(); return false;"
+                       class="btn btn-secondary">
+                        Cancelar
+                    </a>
+
+                    <button type="submit"
+                            class="btn btn-success"
+                            th:text="${action == 'new' ? 'Guardar Pago' : 'Actualizar Pago'}">
+                        Guardar Pago
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
